@@ -2,9 +2,11 @@ import pandas as pd
 import requests
 import csv
 
-df = pd.read_csv("/home/paul/Documents/Project/cities_data.csv")
+df = pd.read_csv("/home/paul/Documents/DataScientestProject/cities.csv")
 
-cities = []
+print(df)
+
+cities_id = []
 lons = []
 lats = []
 names = []
@@ -20,7 +22,7 @@ for i in range(1000):
         data = response.json()
         print(response)
         for place in data['features']:
-            cities.append(df['City'].iloc[i])
+            cities_id.append(df['City_id'].iloc[i])
             lons.append(place['geometry']['coordinates'][0])
             lats.append(place['geometry']['coordinates'][1])
             names.append(place['properties']['name'])
@@ -28,11 +30,11 @@ for i in range(1000):
         
 
 
-tuples = list(zip(cities, names, lons, lats, kinds))
+tuples = list(zip(cities_id, names, lons, lats, kinds))
 
 tuples
 
-places = pd.DataFrame(tuples, columns=["City", "Name", "Lon", "Lat", "Kind"]) 
+places = pd.DataFrame(tuples, columns=["City_id", "Name", "Lon", "Lat", "Kind"]) 
 
 print(places)
 

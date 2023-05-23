@@ -1,4 +1,4 @@
-,City,Name,Lon,Lat,Kind
+Place_id,City,Name,Lon,Lat,Kind
 0,Madrid,Convento de Nuestra Señora de las Victorias,-3.7022057,40.4166374,"religion,architecture,historic_architecture,monasteries,interesting_places,destroyed_objects"
 1,Madrid,Iglesia del Buen Suceso,-3.7026334,40.4168587,"religion,architecture,historic_architecture,churches,interesting_places,destroyed_objects,catholic_churches"
 2,Madrid,Statue of the Bear and the Strawberry Tree,-3.7026184,40.4170074,"historic,monuments_and_memorials,urban_environment,cultural,interesting_places,sculptures,monuments"

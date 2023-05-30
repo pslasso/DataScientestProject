@@ -2,7 +2,7 @@ import requests
 from neo4j import GraphDatabase
 
 # Configurar la conexión a Neo4j
-uri = "bolt://54.247.165.84:7687"
+uri = "bolt://localhost:7687"
 username = "neo4j"
 password = "neo4j"
 

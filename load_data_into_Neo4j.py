@@ -3,9 +3,9 @@ import requests
 from neo4j import GraphDatabase
 
 # Neo4j
-uri = "bolt://localhost:7687"
+uri = "bolt://52.16.133.206:7687"
 username = "neo4j"
-password = "aleneo4j"
+password = "neo4j"
 
 driver = GraphDatabase.driver(uri, auth=(username, password))
 
@@ -245,8 +245,8 @@ with driver.session() as session:
 
         session.run("CREATE (:City {name: $name, latitude: $lat, longitude: $lng})", name=city_name, lat=city_lat, lng=city_lng)
 
-        #if city_name != "Madrid":
-        #    continue
+        #if city_name == "Madrid":
+        #   continue
 
         # Obtaining places for the current city
         opentripmap_url = f"https://api.opentripmap.com/0.1/en/places/radius?radius=5000&lon={city_lng}&lat={city_lat}&apikey=5ae2e3f221c38a28845f05b60b17b7c3473712177ccd23d0247a7ced"
@@ -277,6 +277,27 @@ with driver.session() as session:
                      MERGE (place:Place {name: $place_name})
                      SET place.desciption = $description, place.rate = $rate, place.image = $image, place.place_longitude = $place_longitude, place.place_latitude = $place_latitude
                  """, place_name=place_name, description=description, rate=rate, image=image, place_longitude=place_longitude, place_latitude=place_latitude)
+
+                # Creating relation between places and the city
+
+                session.run("""
+                        MATCH (p:Place {name: $place_name})
+                        MATCH (c:City {name: $city_name})
+                        MERGE (p) - [:IN] -> (c)""", place_name = place_name, city_name=city_name)
+                
+                # Creating distance relation between places in the city
+
+                result = session.run("MATCH (place:Place) RETURN place")
+                for record in result:
+                    other_place = record["place"]
+                    if other_place["name"] != place_name:
+                        distance = calculate_distance(place_latitude, place_longitude, other_place["place_latitude"], other_place["place_longitude"])
+                        session.run("""
+                                MATCH (place1:Place {name: $place1_name})
+                                MATCH (place2:Place {name: $place2_name})
+                                MERGE (place1)-[:DISTANCE {value: $distance}]->(place2)
+                        """, place1_name=place_name, place2_name=other_place["name"], distance=distance)
+  
 
 		# Debugging
                 #print("Place:", place_name)

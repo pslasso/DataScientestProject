@@ -1,0 +1,19 @@
+# Define la imagen base
+FROM python:3.9-slim-buster
+
+# Establece el directorio de trabajo en /app
+WORKDIR /app
+
+# Copia el archivo de requerimientos y lo instala
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia el archivo app.py a la imagen
+COPY app.py .
+
+# Expone el puerto 8050 para la aplicación Dash
+EXPOSE 8050
+
+# Comando para ejecutar la aplicación
+CMD ["python", "app.py"]
+

@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+py2neo
+requests
+dash
+dash-core-components
+dash-html-components
+dash-bootstrap-components
+folium
+pandas
+geopy
+plotly
+dash-leaflet
+protobuf<=3.20.0

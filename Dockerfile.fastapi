@@ -1,0 +1,20 @@
+# Define la imagen base
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
+
+# Establece el directorio de trabajo en /app
+WORKDIR /app
+
+# Copia el archivo de requerimientos y lo instala
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia el archivo api.py a la imagen
+COPY api.py .
+
+# Expone el puerto 80 para la aplicación
+EXPOSE 80
+
+# Comando para ejecutar la aplicación
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "80"]
+
